@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 
+<script src="http://d3js.org/d3.v2.js"></script>
+<script src="https://dl.dropboxusercontent.com/u/103327358/jquery.min.js"></script>
+ 
+ 
+</head>
+ 
+<script>
+var data;
+ 
+d3.json("https://dl.dropboxusercontent.com/u/103327358/data.json", function(error, json) {
+  if (error) return console.warn(error);
+  data = json;
+  alert("length: "+data.length);
+ 
+});
+ 
+</script>
+</html>
