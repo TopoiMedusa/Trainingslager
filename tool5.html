@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <script src="https://dl.dropboxusercontent.com/u/103327358/jquery.min.js"></script>
+  <script src="http://d3js.org/d3.v2.js"></script>
+   
+   
+<style>
+table {
+border: 1px solid black;
+border-collapse: collapse;
+}
+th:hover {
+background-color: deepskyblue;
+}
+td, th {
+padding: 2px 4px;
+border: 1px solid black;
+}
+th {
+font-weight: bold;
+}
+div tablesize{
+height: 400px;
+overflow: auto;
+top: 50px;
+}
+</style>
+<title>Tabelle Sonnenuhren</title>
+</head>
+<body>
+
+<form id="filter">
+    <select id="material" name="material">
+      <option value="None" >kein Material ausgewaehlt</option>
+      <OPTION value="limestone">limestone</OPTION>
+      <OPTION value="marble">marble</OPTION>
+    </select>
+</form>
+ 
+<script>
+var material="None";
+var thead;
+var table;
+var c;
+var columns;
+var mark;
+
+function table()
+{
+div = d3.select("body").append("div"); 
+table = div.append("table").attr("id","table"),
+thead = table.append("thead").attr("id","header"),
+tbody = table.append("tbody").attr("id","body");
+c = d3.scale.ordinal();
+// declare the data variable
+columns;
+mark = 0;
+};
+
+$('#material').change(function() {
+        material=$(this).val();
+        mainfilter();
+    });
+    
+function mainfilter()
+{
+table(); 
+d3.json("https://dl.dropboxusercontent.com/u/103327358/data.json", function(json) {
+var data=json.filter(function(d) { return (d.material == material || material=="None");});
+columns = Object.keys(data[0]);
+columns = ["sundialsID", "dialfaceType","material", "form","sites","location","objectsDating"];
+// append the header row
+thead.append("tr")
+.selectAll("th")
+.data(columns)
+.enter()
+.append("th")
+.text(function(column) { return column; })
+.attr("onselectstart","return false;");
+
+
+
+function loadUrl(newLocation)
+{
+window.location = newLocation;
+return false;
+}
+
+// create a row for each object in the data
+var rows = tbody.selectAll("tr")
+.data(data)
+.enter()
+.append("tr")
+.on("click", function  (d)  {
+loadUrl('http://www.ancient-astronomy.org/webapplications/sundials/objects.php?objectid='+d.sundialsID, function() {});
+});
+
+// create a cell in each row for each column
+var cells = rows.selectAll("td")
+.data(function(row) {
+return columns.map(function(column) {
+return {column: column, value: row[column]};
+});
+})
+.enter()
+.append("td")
+.text(function(d) { return d.value; });
+});
+};
+ 
+</script>
+</body>
+</html>
