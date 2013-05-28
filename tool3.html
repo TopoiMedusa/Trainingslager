@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://d3js.org/d3.v2.js"></script>
+<style>
+table {
+border: 1px solid black;
+border-collapse: collapse;
+}
+th:hover {
+background-color: deepskyblue;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+td, th {
+padding: 2px 4px;
+border: 1px solid black;
+}
+th {
+font-weight: bold;
+}
+div {
+height: 600px;
+overflow: auto;
+top: 50px;
+}
+</style>
+<title>Tabelle Sonnenuhren</title>
+</head>
+ 
+<body>
+<script>
+div = d3.select("body").append("div");
+var table = div.append("table").attr("id","table"),
+thead = table.append("thead").attr("id","header"),
+tbody = table.append("tbody").attr("id","body");
+var c = d3.scale.ordinal()
+.domain(["","Low","Medium","High"])
+.range(["none","green","yellow","red"]);
+// declare the data variable
+var data;
+var columns;
+var mark = 0;
+d3.json("https://dl.dropboxusercontent.com/u/103327358/data.json", function(json) {
+data = json;
+columns = Object.keys(data[0]);
+columns = ["sundialsID", "material", "form","sites","location"];
+// append the header row
+thead.append("tr")
+.selectAll("th")
+.data(columns)
+.enter()
+.append("th")
+.text(function(column) { return column; })
+.attr("onselectstart","return false;")
+.on("click",function() {
+ 
+// create a row for each object in the data
+rows.data(data)
+.transition()
+.duration(100)
+.style("background-color",function(d) {return c(d['Risk Factor']);});
+ 
+// create a cell in each row for each column
+cells.data(function(row) {
+return columns.map(function(column) {
+return {column: column, value: row[column]};
+});
+})
+.transition()
+.text(function(d) { return d.value; });
+});
+ 
+// create a row for each object in the data
+var rows = tbody.selectAll("tr")
+.data(data)
+.enter()
+.append("tr")
+.style("background-color",function(d) {return c(d['Risk Factor']);});
+ 
+// create a cell in each row for each column
+var cells = rows.selectAll("td")
+.data(function(row) {
+return columns.map(function(column) {
+return {column: column, value: row[column]};
+});
+})
+.enter()
+.append("td")
+.text(function(d) { return d.value; });
+});
+</script>
+ 
+</body>
+</html>
