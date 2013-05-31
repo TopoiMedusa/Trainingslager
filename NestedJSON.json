@@ -43,7 +43,7 @@
 	"DistancePointsEastTop" : 167.17414053502995
 }
 ]}, 
-{"Object" : "ObjID128",
+{"Object" : "ObjID128", 
 "children": [
 {
 	"IntersectionEllipsePlaneFrontUPRightCone" : 17.76971920188188, 
