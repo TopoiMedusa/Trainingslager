@@ -31,7 +31,7 @@
 {"Object" : "ObjID127",
 "children": [
 {
-	"IntersectionEllipsePlaneFrontUPRightCone" : 17.76971920188188, 
+	"IntersectionEllipsePlaneFrontUPRightCone" : 17.76971920188188,  
 	"DistanceGnomonHoleEdgeAxisEllipse" : 127.65261891396115, 
 	"DistanceGnomonHoleEdgeOrtho" : 127.65010143772567, 
 	"DistancePointsFrontUPTop" : 196.45413868954103, 
